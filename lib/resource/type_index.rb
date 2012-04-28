@@ -6,11 +6,12 @@ module Resource
 
     wireable
     dependency :expose_classes, :features => :classes_exposed_as_type_resources, :class => ::Hash, :multiple => true, :optional => true
+    dependency :type_registry, Typisch::Registry
 
     def initialize(uri, deps)
       @uri = uri
-      @registry = MSP::TYPE_REGISTRY
-      
+      @registry = deps[:type_registry]
+
       @classes_to_aliases = deps[:expose_classes].inject({}, &:merge!)
       @aliases_to_classes = @classes_to_aliases.invert
 
@@ -23,7 +24,8 @@ module Resource
     route("/{name}", :name => 'type_by_tag') {|router,uri,params| router.type_resource(params[:name], uri)}
 
     def type_resource(name, uri=expand_route_template('type_by_tag', :name => name))
-      klass = @aliases_to_classes[name] and Type::WithVersions.new(uri, @registry[klass], self)
+      klass = @aliases_to_classes[name] and
+        Type::WithVersions.new(uri, @registry[klass], self)
     end
 
     def type_resource_for_class(klass)
@@ -64,9 +66,9 @@ module Resource
         Doze::Entity.new(Base::HTML_MEDIA_TYPE, :encoding => 'utf-8') do
           Serializer::HTMLTypeResource.new(@type_index).serialize(@type, (self if is_a?(Doze::Router)))
         end,
-        MSP::Entity::JSONInHTML.new(MSP::Entity::JSONInHTML::MEDIA_TYPE, :encoding => 'utf-8') do
-          Serializer::JsonableTypeResource.new(@type_index).serialize(@type)
-        end
+#        MSP::Entity::JSONInHTML.new(MSP::Entity::JSONInHTML::MEDIA_TYPE, :encoding => 'utf-8') do
+#          Serializer::JsonableTypeResource.new(@type_index).serialize(@type)
+#        end
       ]
     end
 

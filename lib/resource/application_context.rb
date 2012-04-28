@@ -43,17 +43,7 @@ module Resource
       :version_key                     => 'version',
       :version_as_uri                  => false,
       :compatibility_tag_key           => 'media_type',
-      :class_name_to_compatibility_tag => {
-        'MSP::Catalog2::Resource::Artist'      => 'application/vnd.msp.catalog.artist',
-        'MSP::Catalog2::Resource::Release'     => 'application/vnd.msp.catalog.release',
-        'MSP::Catalog2::Resource::Track'       => 'application/vnd.msp.catalog.track',
-        'MSP::Catalog2::Resource::Label'       => 'application/vnd.msp.catalog.label',
-        'MSP::Catalog2::Resource::Tag'         => 'application/vnd.msp.catalog.tag',
-        'MSP::Catalog2::Resource::Recording'   => 'application/vnd.msp.catalog.recording',
-        'MSP::Catalog2::Resource::Description' => 'application/vnd.msp.catalog.description',
-        'MSP::Catalog2::Resource::File::Image' => 'application/vnd.msp.file.image',
-        'MSP::Billing::Resource::Plan'         => 'application/vnd.msp.billing.plan'
-      }
+      :class_name_to_compatibility_tag => {}
     }
 
     def jsonable_serializer_for_type(type)

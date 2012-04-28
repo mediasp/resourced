@@ -1,12 +1,11 @@
 require 'test/helpers'
-require 'test/api/resource/helpers'
 require 'ostruct'
 
-MSP.require_plugin('resource2')
+TEST_REGISTRY = Typisch::Registry.new
 
 class TestDataClass < OpenStruct; end
 
-MSP.register_types do
+TEST_REGISTRY.register do
   register_type_for_class TestDataClass do
     property :a, :integer
     property :b, sequence(:string)
@@ -15,22 +14,27 @@ end
 
 describe "A basic Resource::Base resource serializing some typed data" do
   include ResourceTestHelpers
-  
-  setup do
-    @msp_app = MSP.new_application('resource2' => {:type_index_uri => '/types'}) do |app|
-      app.add_instance({TestDataClass => 'test-data-class'}, :features => [:classes_exposed_as_type_resources])
-    end
 
-    @type = MSP::TYPE_REGISTRY[:TestDataClass]    
+  setup do
+    @type = TEST_REGISTRY[:TestDataClass]
+
+    @ctr = Wirer::Container.new
+    @ctr.add(:resource_application_context, Resource::ApplicationContext)
+    @ctr.add(:type_index, Resource::TypeIndex, '/types')
+    @ctr.add_instance(TEST_REGISTRY)
+
+    @ctr.add_instance({TestDataClass => 'test-data-class'}, :features => [:classes_exposed_as_type_resources])
+
+
     @data = TestDataClass.new(:a => 123, :b => ['x','y','z'])
 
-    @resource = Resource::SerializedWithType.new('/under_test', @data, @type, @msp_app.resource_application_context)
-    
+    @resource = Resource::SerializedWithType.new('/under_test', @data, @type, @ctr.resource_application_context)
+
     self.root_resource = Class.new {include Doze::Router}.new
-    root_resource.add_route('/types', :to => @msp_app.type_index)
-    root_resource.add_route('/under_test', :to => @resource)    
+    root_resource.add_route('/types', :to => @ctr.type_index)
+    root_resource.add_route('/under_test', :to => @resource)
   end
-  
+
   it "should by default serialize the data as json in the application/vnd.msp+json media type and in utf-8" do
     get '/under_test'
     assert_equal "application/vnd.msp+json", last_response.media_type
@@ -57,7 +61,7 @@ describe "A basic Resource::Base resource serializing some typed data" do
       'version' => 'main'
     }, last_response.json)
   end
-  
+
   it "should use working uris as type tags, where the uri resolves to a resource describing the type" do
     get '/under_test'
     get last_response.json['_tag']
@@ -75,7 +79,7 @@ describe "A basic Resource::Base resource serializing some typed data" do
     get '/under_test', {}, {'HTTP_ACCEPT' => 'text/html'}
     assert_equal "text/html", last_response.media_type
     assert_equal "utf-8", last_response.content_charset
-    
+
     # kinda crude prodding to look for something which looks plausibly like some HTML with the appropriate data serialized in it
     assert_match /<html>.*<\/html>/m, last_response.body
     assert_match /x.*y.*z/m, last_response.body

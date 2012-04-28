@@ -4,6 +4,35 @@ require 'test/spec'
 
 require 'resource'
 
+
+# monkey patch some useful bits
+class Rack::MockResponse
+
+  def json
+    @json ||= begin
+      raise "MockResponse#json: expected json media_type" unless media_type =~ /^application\/.*json$/
+      JSON.parse("[#{body}]")[0]
+    end
+  end
+
+  # Useful to have these helpers in MockResponse corresponding to those in request:
+
+  def media_type
+    content_type && content_type.split(/\s*[;,]\s*/, 2)[0].downcase
+  end
+
+  def media_type_params
+    return {} if content_type.nil?
+    content_type.split(/\s*[;,]\s*/)[1..-1].
+      collect { |s| s.split('=', 2) }.
+      inject({}) { |hash,(k,v)| hash[k.downcase] = v ; hash }
+  end
+
+  def content_charset
+    media_type_params['charset']
+  end
+end
+
 module ResourceTestHelpers
   include Rack::Test::Methods
 

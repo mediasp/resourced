@@ -1,6 +1,12 @@
 module Resource
 end
 
+require 'doze'
+require 'wirer'
+require 'typisch'
+require 'thin_models/struct'
+require 'thin_models/lazy_array'
+
 require 'resource/application_context'
 require 'resource/serializer/jsonable_resource'
 require 'resource/serializer/html_resource'

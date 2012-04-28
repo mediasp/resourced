@@ -1,5 +1,8 @@
-# Basic superclass for MSP resources, which provides for serialization of the resource
-# in standard MSP media types.
+# Basic superclass for resources, which provides for serialization of the resource
+# in standard media types.
+#
+# TODO - does this have any place in a generic library?  Or perhaps some tool
+# to build a base class?
 #
 # You need to override get_data to return a JSON-able data structure.
 module Resource
@@ -18,9 +21,9 @@ module Resource
         Doze::Entity.new(HTML_MEDIA_TYPE, :encoding => 'utf-8') do
           application_context.html_serializer_for_type(serialization_type).serialize(serialization_data)
         end,
-        MSP::Entity::JSONInHTML.new(MSP::Entity::JSONInHTML::MEDIA_TYPE, :encoding => 'utf-8') do
-          application_context.jsonable_serializer_for_type(serialization_type).serialize(serialization_data)
-        end
+#        MSP::Entity::JSONInHTML.new(MSP::Entity::JSONInHTML::MEDIA_TYPE, :encoding => 'utf-8') do
+#          application_context.jsonable_serializer_for_type(serialization_type).serialize(serialization_data)
+#        end
       ]
     end
 
