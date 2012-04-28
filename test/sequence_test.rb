@@ -1,33 +1,31 @@
 require 'test/helpers'
-require 'test/api/resource/helpers'
 require 'ostruct'
-
-MSP.require_plugin('resource2')
 
 class TestDataClass < OpenStruct; end
 
-MSP.register_types do
+TEST_REGISTRY.register do
   register :test_sequence, sequence(:integer)
 end
 
 describe "A Resource::Sequence resource serializing some typed sequence data and making available range subresources" do
   include ResourceTestHelpers
-  
+  include WirerHelpers
+
   def setup_sequence(options={})
-    @msp_app = MSP.new_application('resource2' => {:type_index_uri => '/types'})
+    @ctr = new_container
 
     @resource = Resource::Sequence.new(
       '/under_test',
       [0,1,2,3,4],
-      MSP::TYPE_REGISTRY[:test_sequence],
-      @msp_app.resource_application_context,
+      TEST_REGISTRY[:test_sequence],
+      @ctr.resource_application_context,
       options
     )
-    
+
     self.root_resource = Class.new {include Doze::Router}.new
     root_resource.add_route('/under_test', :to => @resource)
   end
-  
+
   it "should serialize the full sequence at /range/all" do
     setup_sequence
     get '/under_test/range/all'
@@ -49,7 +47,7 @@ describe "A Resource::Sequence resource serializing some typed sequence data and
     get '/under_test/range/6-7'
     assert_equal({"range_start"=>6, "_tag"=>"array", "total_items"=>5}, last_response.json)
   end
-  
+
   it "should let you configure a :max_length beyond which 'range' and 'all' requests will be 404'd" do
     setup_sequence(:max_length => 2)
     get '/under_test/range/0-1'
