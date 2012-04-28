@@ -1,0 +1,9 @@
+
+  - work out what a base application context should look like - so without the
+    msp specific stuff that came with it, but still able to support those sorts
+    of things (whatever they are)
+
+  - MSP::Entity::JSONInHTML is referenced in resource/base.rb
+
+  - There are constants that probably should be initialized instead (look at
+    resource/base.rb)
