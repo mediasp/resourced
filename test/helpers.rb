@@ -2,7 +2,7 @@ require 'rubygems'
 require 'rack/test'
 require 'test/spec'
 
-require 'resource'
+require 'resourced'
 
 # here so each test does not have to declare one
 TEST_REGISTRY = Typisch::Registry.new
@@ -11,8 +11,8 @@ module WirerHelpers
 
   def new_container(&block)
     @ctr = Wirer::Container.new
-    @ctr.add(:resource_application_context, Resource::ApplicationContext)
-    @ctr.add(:type_index, Resource::TypeIndex, '/types')
+    @ctr.add(:resource_application_context, Resourced::ApplicationContext)
+    @ctr.add(:type_index, Resourced::TypeIndex, '/types')
     @ctr.add_instance(TEST_REGISTRY)
 
     yield @ctr if block_given?
@@ -50,12 +50,12 @@ class Rack::MockResponse
   end
 end
 
-module ResourceTestHelpers
+module ResourcedTestHelpers
   include Rack::Test::Methods
 
   def app(options={})
     @app ||= begin
-      root = root_resource or raise "ResourceTestHelpers: set self.root_resource before running any requests"
+      root = root_resource or raise "ResourcedTestHelpers: set self.root_resource before running any requests"
       Doze::Application.new(root, {
         :catch_application_errors => false,
         :media_type_extensions => true,

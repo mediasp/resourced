@@ -10,8 +10,8 @@ TEST_REGISTRY.register do
   end
 end
 
-describe "A basic Resource::Base resource serializing some typed data" do
-  include ResourceTestHelpers
+describe "A basic Resourced::Base resource serializing some typed data" do
+  include ResourcedTestHelpers
   include WirerHelpers
 
   setup do
@@ -24,7 +24,7 @@ describe "A basic Resource::Base resource serializing some typed data" do
 
     @data = TestDataClass.new(:a => 123, :b => ['x','y','z'])
 
-    @resource = Resource::SerializedWithType.new('/under_test', @data, @type, @ctr.resource_application_context)
+    @resource = Resourced::SerializedWithType.new('/under_test', @data, @type, @ctr.resource_application_context)
 
     self.root_resource = Class.new {include Doze::Router}.new
     root_resource.add_route('/types', :to => @ctr.type_index)

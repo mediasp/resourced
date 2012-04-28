@@ -1,4 +1,4 @@
-module Resource
+module Resourced
   class Sequence < SerializedWithType
     include Router
 

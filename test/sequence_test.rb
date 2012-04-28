@@ -7,14 +7,14 @@ TEST_REGISTRY.register do
   register :test_sequence, sequence(:integer)
 end
 
-describe "A Resource::Sequence resource serializing some typed sequence data and making available range subresources" do
-  include ResourceTestHelpers
+describe "A Resourced::Sequence resource serializing some typed sequence data and making available range subresources" do
+  include ResourcedTestHelpers
   include WirerHelpers
 
   def setup_sequence(options={})
     @ctr = new_container
 
-    @resource = Resource::Sequence.new(
+    @resource = Resourced::Sequence.new(
       '/under_test',
       [0,1,2,3,4],
       TEST_REGISTRY[:test_sequence],

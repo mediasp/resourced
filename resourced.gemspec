@@ -2,16 +2,16 @@
 lib = File.expand_path('../lib/', __FILE__)
 $:.unshift lib unless $:.include?(lib)
 
-require 'resource/version'
+require 'resourced/version'
 
 spec = Gem::Specification.new do |s|
-  s.name   = "resource"
-  s.version = Resource::VERSION
+  s.name   = "resourced"
+  s.version = Resourced::VERSION
   s.platform = Gem::Platform::RUBY
   s.authors = ['Matthew Willson', 'Nick Griffiths', 'MSP Development Team']
   s.email = ["matthew.willson@gmail.com", "nicobrevin@gmail.com", "dev@mediasp.com"]
-  s.summary = "Resource library for building API applications"
-  s.description = 'Brings together doze, persistence and wirer to provide conveniences for building REST API applications'
+  s.summary = "Builds on the doze library for building API applications with wirer and persistence"
+  s.description = 'Brings together doze, persistence, typisch and wirer to provide conveniences for building REST API applications'
   s.homepage = 'http://dev.playlouder.com'
 
 

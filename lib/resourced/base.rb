@@ -5,7 +5,7 @@
 # to build a base class?
 #
 # You need to override get_data to return a JSON-able data structure.
-module Resource
+module Resourced
   module Base
     JSON_MEDIA_TYPE = Doze::Serialization::JSON.register_derived_type('application/vnd.msp')
     HTML_MEDIA_TYPE = Doze::MediaType.new('text/html', :extension => 'html')

@@ -1,8 +1,8 @@
 require 'typisch/serialization'
 
-module Resource
+module Resourced
   module Serializer; end
-  module Serializer::Resource
+  module Serializer::Resourced
     ARRAY_TAGS = {
       ThinModels::LazyArray                   => 'array',
       ThinModels::LazyArray::MemoizedLength   => 'array',
@@ -13,8 +13,8 @@ module Resource
     }
   end
 
-  class Serializer::JsonableResource < Typisch::JsonableSerializer
-    include Serializer::Resource
+  class Serializer::JsonableResourced < Typisch::JsonableSerializer
+    include Serializer::Resourced
 
     def initialize(type, type_index, options={})
       @type_index = type_index

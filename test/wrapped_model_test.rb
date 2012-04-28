@@ -2,7 +2,7 @@ require 'test/helpers'
 require 'persistence/interfaces'
 require 'mocha'
 
-describe "A scenario using Resource::Object::WrappedModel resources wrapping underlying model classes, exposed via multiple repository resources routed to via a RepositoriesIndex" do
+describe "A scenario using Resourced::Object::WrappedModel resources wrapping underlying model classes, exposed via multiple repository resources routed to via a RepositoriesIndex" do
 
   class TestModel1 < ThinModels::Struct::Typed
     register_type TEST_REGISTRY do
@@ -22,8 +22,8 @@ describe "A scenario using Resource::Object::WrappedModel resources wrapping und
     identity_attribute :id
   end
 
-  class TestWrappedModel1 < Resource::Object
-    include Resource::Object::WrappedModel
+  class TestWrappedModel1 < Resourced::Object
+    include Resourced::Object::WrappedModel
 
     wrap_model_class(TestModel1, TEST_REGISTRY) do
       expose :id, :exposed
@@ -35,8 +35,8 @@ describe "A scenario using Resource::Object::WrappedModel resources wrapping und
     end
   end
 
-  class TestWrappedModel2 < Resource::Object
-    include Resource::Object::WrappedModel
+  class TestWrappedModel2 < Resourced::Object
+    include Resourced::Object::WrappedModel
 
     wrap_model_class(TestModel2, TEST_REGISTRY) do
       expose :id
@@ -55,12 +55,12 @@ describe "A scenario using Resource::Object::WrappedModel resources wrapping und
     def self.model_class; TestModel2; end
   end
 
-  class TestRepoIndex < Resource::RepositoriesIndex
+  class TestRepoIndex < Resourced::RepositoriesIndex
     expose_repository :test_model_1_repo, TestModel1Repo, TestWrappedModel1, '/wm1'
     expose_repository :test_model_2_repo, TestModel2Repo, TestWrappedModel2, '/wm2'
   end
 
-  include ResourceTestHelpers
+  include ResourcedTestHelpers
   include WirerHelpers
 
   def setup

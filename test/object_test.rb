@@ -1,8 +1,8 @@
 require 'test/helpers'
 
-describe "An Resource::Object resource class" do
+describe "An Resourced::Object resource class" do
 
-  class TestObjectResourceClass < Resource::Object
+  class TestObjectResourcedClass < Resourced::Object
     register_type TEST_REGISTRY do
       property :foo, :integer
       property :bar, sequence(:string)
@@ -15,15 +15,15 @@ describe "An Resource::Object resource class" do
     end
   end
 
-  include ResourceTestHelpers
+  include ResourcedTestHelpers
   include WirerHelpers
 
   def setup
     @ctr = new_container do |ctr|
-      ctr.add_instance({TestObjectResourceClass => 'test-object-resource-class'}, :features => [:classes_exposed_as_type_resources])
+      ctr.add_instance({TestObjectResourcedClass => 'test-object-resource-class'}, :features => [:classes_exposed_as_type_resources])
     end
 
-    @resource = TestObjectResourceClass.new('/under_test', @ctr.resource_application_context, :foo => 123, :bar => ['x','y','z'])
+    @resource = TestObjectResourcedClass.new('/under_test', @ctr.resource_application_context, :foo => 123, :bar => ['x','y','z'])
 
     self.root_resource = Class.new {include Doze::Router}.new
     root_resource.add_route('/types', :to => @ctr.type_index)
@@ -56,6 +56,6 @@ describe "An Resource::Object resource class" do
     get '/under_test/property/bar/range/0-1'
     assert last_response.ok?
     assert_equal({"_tag"=>"array", "range_start"=>0, "total_items"=>3, "items"=>["x", "y"]}, last_response.json)
-    # see tests for Resource::Sequence for more
+    # see tests for Resourced::Sequence for more
   end
 end

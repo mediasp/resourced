@@ -1,4 +1,4 @@
-module Resource
+module Resourced
   class TypeIndex
     include Router
 
@@ -61,10 +61,10 @@ module Resource
     def get
       [
         Doze::Serialization::JSON.entity_class.new(Base::JSON_MEDIA_TYPE, :encoding => 'utf-8') do
-          Serializer::JsonableTypeResource.new(@type_index).serialize(@type)
+          Serializer::JsonableTypeResourced.new(@type_index).serialize(@type)
         end,
         Doze::Entity.new(Base::HTML_MEDIA_TYPE, :encoding => 'utf-8') do
-          Serializer::HTMLTypeResource.new(@type_index).serialize(@type, (self if is_a?(Doze::Router)))
+          Serializer::HTMLTypeResourced.new(@type_index).serialize(@type, (self if is_a?(Doze::Router)))
         end
       ]
     end

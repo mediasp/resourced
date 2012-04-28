@@ -1,4 +1,4 @@
-module Resource
+module Resourced
   class Object::MultiVersion < Object
 
     route('/version/{version}', :name => 'version_by_name') do |router, uri, params|

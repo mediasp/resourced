@@ -1,4 +1,4 @@
-module Resource
+module Resourced
   class Object
     include Base
     include Doze::Router

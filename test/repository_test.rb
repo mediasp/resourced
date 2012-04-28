@@ -2,7 +2,7 @@ require 'test/helpers'
 require 'persistence/interfaces'
 require 'mocha'
 
-describe "Resource::Repository exposing model class instances wrapped via Resource2::SerializedWithType" do
+describe "Resourced::Repository exposing model class instances wrapped via Resourced2::SerializedWithType" do
 
   class TestModelFromRepo < ThinModels::Struct::Typed
     register_type TEST_REGISTRY do
@@ -18,7 +18,7 @@ describe "Resource::Repository exposing model class instances wrapped via Resour
     def self.model_class; TestModelFromRepo; end
   end
 
-  include ResourceTestHelpers
+  include ResourcedTestHelpers
   include WirerHelpers
 
   def setup
@@ -30,8 +30,8 @@ describe "Resource::Repository exposing model class instances wrapped via Resour
 
   def set_up_repo(options={})
     @repo = TestRepo.new
-    @repo_resource = Resource::Repository.new('/repo', @repo, options) do |uri, model|
-      Resource::SerializedWithType.new(uri, model, TestModelFromRepo.type, @ctr.resource_application_context)
+    @repo_resource = Resourced::Repository.new('/repo', @repo, options) do |uri, model|
+      Resourced::SerializedWithType.new(uri, model, TestModelFromRepo.type, @ctr.resource_application_context)
     end
 
     self.root_resource = Class.new {include Doze::Router}.new

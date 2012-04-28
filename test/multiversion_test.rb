@@ -1,8 +1,8 @@
 require 'test/helpers'
 
-describe "A more involved usage scenario with Resource::Object::MultiVersion" do
+describe "A more involved usage scenario with Resourced::Object::MultiVersion" do
 
-  class TestMultiVersion1 < Resource::Object::MultiVersion
+  class TestMultiVersion1 < Resourced::Object::MultiVersion
     register_type TEST_REGISTRY do
       property :a, :integer
       property :b, :integer
@@ -23,7 +23,7 @@ describe "A more involved usage scenario with Resource::Object::MultiVersion" do
     end
   end
 
-  class TestMultiVersion2 < Resource::Object::MultiVersion
+  class TestMultiVersion2 < Resourced::Object::MultiVersion
     register_type TEST_REGISTRY do
       property :foo, :integer
       property :bar, :TestMultiVersion1
@@ -48,7 +48,7 @@ describe "A more involved usage scenario with Resource::Object::MultiVersion" do
     end
   end
 
-  include ResourceTestHelpers
+  include ResourcedTestHelpers
   include WirerHelpers
 
   def setup
@@ -127,7 +127,7 @@ describe "A more involved usage scenario with Resource::Object::MultiVersion" do
     get '/mv2/property/baz/range/0-1'
     assert last_response.ok?
     assert_equal({"_tag"=>"array", "range_start"=>0, "total_items"=>3, "items"=>["x", "y"]}, last_response.json)
-    # see tests for Resource::Sequence for more
+    # see tests for Resourced::Sequence for more
   end
 
   it "should make version subresources available which serialize (a subset of) the data as specified by the derived version type" do

@@ -1,14 +1,14 @@
 require 'test/helpers'
 
 # Note: if you wanted to take this approach you'd usually wanna be using
-# Resource::Object, or at least use Typisch::Typed to help make your
+# Resourced::Object, or at least use Typisch::Typed to help make your
 # resource class a typed class. But this is here to demonstrate & test a more
 # direct if verbose approach:
 
-describe "An Resource::Base resource where the data being serialized is itself, a resource with a URI etc" do
+describe "An Resourced::Base resource where the data being serialized is itself, a resource with a URI etc" do
 
-  class TestResourceClass
-    include Resource::Base
+  class TestResourcedClass
+    include Resourced::Base
 
     def initialize(uri, application_context, data)
       @uri = uri
@@ -18,28 +18,28 @@ describe "An Resource::Base resource where the data being serialized is itself, 
     end
 
     def serialization_data; self; end
-    def serialization_type; TEST_REGISTRY[:TestResourceClass]; end
+    def serialization_type; TEST_REGISTRY[:TestResourcedClass]; end
 
     attr_reader :foo, :bar
   end
 
   TEST_REGISTRY.register do
-    register_type_for_class TestResourceClass do
+    register_type_for_class TestResourcedClass do
       property :foo, :integer
       property :bar, sequence(:string)
     end
   end
 
-  include ResourceTestHelpers
+  include ResourcedTestHelpers
   include WirerHelpers
 
   def setup
     @ctr = new_container do |ctr|
-      ctr.add_instance({TestResourceClass => 'test-resource-class'},
+      ctr.add_instance({TestResourcedClass => 'test-resource-class'},
         :features => [:classes_exposed_as_type_resources])
     end
 
-    @resource = TestResourceClass.new('/under_test', @ctr.resource_application_context, :foo => 123, :bar => ['x','y','z'])
+    @resource = TestResourcedClass.new('/under_test', @ctr.resource_application_context, :foo => 123, :bar => ['x','y','z'])
 
     self.root_resource = Class.new {include Doze::Router}.new
     root_resource.add_route('/types', :to => @ctr.type_index)

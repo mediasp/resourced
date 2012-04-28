@@ -1,10 +1,10 @@
 require 'doze/utils'
 
-module Resource
+module Resourced
   module Serializer; end
 
-  class Serializer::HTMLResource < Typisch::Serializer
-    include Serializer::Resource
+  class Serializer::HTMLResourced < Typisch::Serializer
+    include Serializer::Resourced
 
     DEFAULT_TEMPLATE = File.join(File.dirname(__FILE__), 'template.html')
     def self.template(filename=nil)
@@ -16,7 +16,7 @@ module Resource
     def initialize(type, type_index, options={})
       super(type)
       @class_to_type_tag = options[:class_to_type_tag] || type_index.classes_to_uris
-      @template = Serializer::HTMLResource.template(options[:template])
+      @template = Serializer::HTMLResourced.template(options[:template])
       @max_depth = options[:max_depth] || 15
       @type_index = type_index
       
@@ -30,7 +30,7 @@ module Resource
 
     def serialize(data, add_route_info_for=(data if Doze::Router === data))
       result = @template.dup
-      result.sub!("<!--DATA-->", "<h1>Resource data</h1>\n#{serialize_type(data, @type)}") if @type
+      result.sub!("<!--DATA-->", "<h1>Resourced data</h1>\n#{serialize_type(data, @type)}") if @type
       if add_route_info_for
         header_links, html_links = self.class.make_router_links_html(add_route_info_for)
         result.sub!("<!--HEADER-->", header_links)

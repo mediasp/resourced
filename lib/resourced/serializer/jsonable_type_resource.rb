@@ -1,7 +1,7 @@
-module Resource
+module Resourced
   module Serializer; end
-  class Serializer::JsonableTypeResource < Typisch::JsonableTypeSerializer
-    include Serializer::Resource
+  class Serializer::JsonableTypeResourced < Typisch::JsonableTypeSerializer
+    include Serializer::Resourced
 
     def initialize(type_index, options={})
       super({:type_tag_key => '_tag', :value_class_to_type_tag => type_index.classes_to_uris}.merge(options))

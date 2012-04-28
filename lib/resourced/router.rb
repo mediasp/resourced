@@ -1,7 +1,7 @@
-module Resource
+module Resourced
   # this is something which is *only* a router and doesn't serialize any additional data.
   #
-  # use Resource::Base together with Doze::Router if you want something which has
+  # use Resourced::Base together with Doze::Router if you want something which has
   # serialized data to also be a router
   module Router
     include Doze::Resource
@@ -15,10 +15,10 @@ module Resource
     def get
       [
         Doze::Serialization::JSON.entity_class.new(Base::JSON_MEDIA_TYPE, :encoding => 'utf-8') do
-          Serializer::JsonableResource.jsonable_routes(self)
+          Serializer::JsonableResourced.jsonable_routes(self)
         end,
         Doze::Entity.new(Base::HTML_MEDIA_TYPE, :encoding => 'utf-8') do
-          Serializer::HTMLResource.router_links_html(self)
+          Serializer::HTMLResourced.router_links_html(self)
         end
       ]
     end

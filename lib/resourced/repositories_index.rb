@@ -15,7 +15,7 @@
 # Room for change: the responsibilities could be split up a bit, it could be generalised a bit
 # so it doesn't make as many assumptions, some of the service-locator/factory stuff could maybe be done
 # via Wirer instead at the cost of having to add a load more things into the main wirer application.
-module Resource
+module Resourced
   class RepositoriesIndex
     include Router
 

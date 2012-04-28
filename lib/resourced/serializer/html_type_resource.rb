@@ -1,11 +1,11 @@
 require 'doze/utils'
 
-module Resource
+module Resourced
   module Serializer; end
 
   # Apologies for the mess, a TODO would be to DRY up the HTML serialization logic
-  class Serializer::HTMLTypeResource < Serializer::HTMLResource
-    include Serializer::Resource
+  class Serializer::HTMLTypeResourced < Serializer::HTMLResourced
+    include Serializer::Resourced
 
     def initialize(type_index, options={})
       super(Typisch::META_TYPES[:"Typisch::Type"], type_index, options.merge(

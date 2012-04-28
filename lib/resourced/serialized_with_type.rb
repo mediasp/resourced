@@ -2,7 +2,7 @@
 # in standard media types.
 #
 # You need to override get_data to return a JSON-able data structure.
-module Resource
+module Resourced
   class SerializedWithType
     include Base
 

@@ -1,4 +1,4 @@
-module Resource
+module Resourced
   # A kind of a service locator / hub / factory providing various facilities for resource-related
   # stuff which is used throughout the whole routing tree of resources.
   #
@@ -20,8 +20,8 @@ module Resource
   # Also, providing access to the TypeIndex, which gives all serializers some knowledge about the
   # type resources which can be linked to to provide browsable metadata about the types of objects.
   class ApplicationContext < Wirer::Service
-    setter_dependency :repositories_indexes, :class => "Resource::RepositoriesIndex", :multiple => true, :optional => true
-    setter_dependency :type_index, :class => "Resource::TypeIndex"
+    setter_dependency :repositories_indexes, :class => "Resourced::RepositoriesIndex", :multiple => true, :optional => true
+    setter_dependency :type_index, :class => "Resourced::TypeIndex"
 
     def repositories_indexes=(repo_indexes)
       @repos          = repo_indexes.inject({}) {|hash,index| hash.merge!(index.repos)}
@@ -47,11 +47,11 @@ module Resource
     }
 
     def jsonable_serializer_for_type(type)
-      Serializer::JsonableResource.new(type, @type_index, SERIALIZATION_OPTIONS)
+      Serializer::JsonableResourced.new(type, @type_index, SERIALIZATION_OPTIONS)
     end
 
     def html_serializer_for_type(type)
-      Serializer::HTMLResource.new(type, @type_index, SERIALIZATION_OPTIONS)
+      Serializer::HTMLResourced.new(type, @type_index, SERIALIZATION_OPTIONS)
     end
   end
 end

@@ -1,4 +1,4 @@
-module Resource
+module Resourced
   module Object::WrappedModel
     def self.included(klass)
       super

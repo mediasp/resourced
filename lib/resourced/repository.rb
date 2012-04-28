@@ -1,8 +1,8 @@
-# Resource wrapper for a repository, exposing 'get_by_id'.
+# Resourced wrapper for a repository, exposing 'get_by_id'.
 #
 # Requires you specify a resource class which it will route to for the resources
 # themselves.
-module Resource
+module Resourced
   class Repository
     include Router
 
