@@ -3,7 +3,6 @@
     msp specific stuff that came with it, but still able to support those sorts
     of things (whatever they are)
 
-  - MSP::Entity::JSONInHTML is referenced in resource/base.rb
-
   - There are constants that probably should be initialized instead (look at
-    resource/base.rb)
+    resource/base.rb) - maybe base could be created with a class builder as each
+    application may want different options for resources

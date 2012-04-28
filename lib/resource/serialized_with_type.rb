@@ -1,5 +1,5 @@
-# Basic superclass for MSP resources, which provides for serialization of the resource
-# in standard MSP media types.
+# Basic superclass for resources, which provides for serialization of the resource
+# in standard media types.
 #
 # You need to override get_data to return a JSON-able data structure.
 module Resource

@@ -20,16 +20,14 @@ module Resource
         end,
         Doze::Entity.new(HTML_MEDIA_TYPE, :encoding => 'utf-8') do
           application_context.html_serializer_for_type(serialization_type).serialize(serialization_data)
-        end,
-#        MSP::Entity::JSONInHTML.new(MSP::Entity::JSONInHTML::MEDIA_TYPE, :encoding => 'utf-8') do
-#          application_context.jsonable_serializer_for_type(serialization_type).serialize(serialization_data)
-#        end
+        end
       ]
     end
 
     attr_reader :application_context, :serialization_data, :serialization_type
 
-    # We explictly disable caching by default for MSP resources, to stop IE's auto-caching of ajax GETs
+    # We explictly disable caching by default for resources, to stop IE's
+    # auto-caching of ajax GETs
     def cacheable?; false; end
   end
 end

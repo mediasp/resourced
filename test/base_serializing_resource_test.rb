@@ -1,8 +1,9 @@
 require 'test/helpers'
 
-# Note: if you wanted to take this approach you'd usually wanna be using MSP::Resource::Object, or at least
-# use Typisch::Typed to help make your resource class a typed class. But this is here to demonstrate & test a
-# more direct if verbose approach:
+# Note: if you wanted to take this approach you'd usually wanna be using
+# Resource::Object, or at least use Typisch::Typed to help make your
+# resource class a typed class. But this is here to demonstrate & test a more
+# direct if verbose approach:
 
 describe "An Resource::Base resource where the data being serialized is itself, a resource with a URI etc" do
 
