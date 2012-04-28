@@ -2,7 +2,7 @@
 # in standard MSP media types.
 #
 # You need to override get_data to return a JSON-able data structure.
-module MSP::Resource2
+module Resource
   class SerializedWithType
     include Base
 

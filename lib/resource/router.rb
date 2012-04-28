@@ -1,7 +1,7 @@
-module MSP::Resource2
+module Resource
   # this is something which is *only* a router and doesn't serialize any additional data.
   #
-  # use MSP::Resource2::Base together with Doze::Router if you want something which has
+  # use Resource::Base together with Doze::Router if you want something which has
   # serialized data to also be a router
   module Router
     include Doze::Resource

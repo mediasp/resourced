@@ -1,4 +1,4 @@
-module MSP::Resource2
+module Resource
   module Object::WrappedModel
     def self.included(klass)
       super

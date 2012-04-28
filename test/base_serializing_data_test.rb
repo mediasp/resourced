@@ -13,7 +13,7 @@ MSP.register_types do
   end
 end
 
-describe "A basic MSP::Resource2::Base resource serializing some typed data" do
+describe "A basic Resource::Base resource serializing some typed data" do
   include ResourceTestHelpers
   
   setup do
@@ -24,7 +24,7 @@ describe "A basic MSP::Resource2::Base resource serializing some typed data" do
     @type = MSP::TYPE_REGISTRY[:TestDataClass]    
     @data = TestDataClass.new(:a => 123, :b => ['x','y','z'])
 
-    @resource = MSP::Resource2::SerializedWithType.new('/under_test', @data, @type, @msp_app.resource_application_context)
+    @resource = Resource::SerializedWithType.new('/under_test', @data, @type, @msp_app.resource_application_context)
     
     self.root_resource = Class.new {include Doze::Router}.new
     root_resource.add_route('/types', :to => @msp_app.type_index)

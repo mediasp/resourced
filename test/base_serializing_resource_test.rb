@@ -5,10 +5,10 @@ require 'test/api/resource/helpers'
 # use Typisch::Typed to help make your resource class a typed class. But this is here to demonstrate & test a
 # more direct if verbose approach:
 
-describe "An MSP::Resource2::Base resource where the data being serialized is itself, a resource with a URI etc" do
+describe "An Resource::Base resource where the data being serialized is itself, a resource with a URI etc" do
 
   class TestResourceClass
-    include MSP::Resource2::Base
+    include Resource::Base
 
     def initialize(uri, application_context, data)
       @uri = uri

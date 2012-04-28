@@ -2,7 +2,7 @@
 #
 # Requires you specify a resource class which it will route to for the resources
 # themselves.
-module MSP::Resource2
+module Resource
   class Repository
     include Router
 

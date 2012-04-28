@@ -1,6 +1,6 @@
 require 'typisch/serialization'
 
-module MSP::Resource2
+module Resource
   module Serializer; end
   module Serializer::Resource
     ARRAY_TAGS = {

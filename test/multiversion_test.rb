@@ -1,9 +1,9 @@
 require 'test/helpers'
 require 'test/api/resource/helpers'
 
-describe "A more involved usage scenario with MSP::Resource2::Object::MultiVersion" do
+describe "A more involved usage scenario with Resource::Object::MultiVersion" do
 
-  class TestMultiVersion1 < MSP::Resource2::Object::MultiVersion
+  class TestMultiVersion1 < Resource::Object::MultiVersion
     register_type do
       property :a, :integer
       property :b, :integer
@@ -24,7 +24,7 @@ describe "A more involved usage scenario with MSP::Resource2::Object::MultiVersi
     end
   end
 
-  class TestMultiVersion2 < MSP::Resource2::Object::MultiVersion
+  class TestMultiVersion2 < Resource::Object::MultiVersion
     register_type do
       property :foo, :integer
       property :bar, :TestMultiVersion1

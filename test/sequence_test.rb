@@ -10,13 +10,13 @@ MSP.register_types do
   register :test_sequence, sequence(:integer)
 end
 
-describe "A MSP::Resource2::Sequence resource serializing some typed sequence data and making available range subresources" do
+describe "A Resource::Sequence resource serializing some typed sequence data and making available range subresources" do
   include ResourceTestHelpers
   
   def setup_sequence(options={})
     @msp_app = MSP.new_application('resource2' => {:type_index_uri => '/types'})
 
-    @resource = MSP::Resource2::Sequence.new(
+    @resource = Resource::Sequence.new(
       '/under_test',
       [0,1,2,3,4],
       MSP::TYPE_REGISTRY[:test_sequence],

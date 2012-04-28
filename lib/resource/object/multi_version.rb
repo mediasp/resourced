@@ -1,4 +1,4 @@
-module MSP::Resource2
+module Resource
   class Object::MultiVersion < Object
 
     route('/version/{version}', :name => 'version_by_name') do |router, uri, params|

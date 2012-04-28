@@ -1,4 +1,4 @@
-module MSP::Resource2
+module Resource
   class Sequence < SerializedWithType
     include Router
 

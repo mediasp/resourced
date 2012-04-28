@@ -1,9 +1,9 @@
 require 'test/helpers'
 require 'test/api/resource/helpers'
 
-describe "An MSP::Resource2::Object resource class" do
+describe "An Resource::Object resource class" do
 
-  class TestObjectResourceClass < MSP::Resource2::Object
+  class TestObjectResourceClass < Resource::Object
     register_type do
       property :foo, :integer
       property :bar, sequence(:string)

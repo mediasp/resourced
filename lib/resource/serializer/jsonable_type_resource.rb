@@ -1,4 +1,4 @@
-module MSP::Resource2
+module Resource
   module Serializer; end
   class Serializer::JsonableTypeResource < Typisch::JsonableTypeSerializer
     include Serializer::Resource

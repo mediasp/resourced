@@ -1,6 +1,6 @@
 require 'doze/utils'
 
-module MSP::Resource2
+module Resource
   module Serializer; end
 
   # Apologies for the mess, a TODO would be to DRY up the HTML serialization logic

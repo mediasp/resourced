@@ -1,7 +1,7 @@
 require 'test/helpers'
 require 'test/api/resource/helpers'
 
-describe "MSP::Resource2::Repository exposing model class instances wrapped via Resource2::SerializedWithType" do
+describe "Resource::Repository exposing model class instances wrapped via Resource2::SerializedWithType" do
 
   class TestModelFromRepo < ThinModels::Struct::Typed
     register_type do
@@ -27,8 +27,8 @@ describe "MSP::Resource2::Repository exposing model class instances wrapped via 
   
   def set_up_repo(options={})
     @repo = TestRepo.new
-    @repo_resource = MSP::Resource2::Repository.new('/repo', @repo, options) do |uri, model|
-      MSP::Resource2::SerializedWithType.new(uri, model, TestModelFromRepo.type, @msp_app.resource_application_context)
+    @repo_resource = Resource::Repository.new('/repo', @repo, options) do |uri, model|
+      Resource::SerializedWithType.new(uri, model, TestModelFromRepo.type, @msp_app.resource_application_context)
     end
         
     self.root_resource = Class.new {include Doze::Router}.new

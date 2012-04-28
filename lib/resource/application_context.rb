@@ -1,4 +1,4 @@
-module MSP::Resource2
+module Resource
   # A kind of a service locator / hub / factory providing various facilities for resource-related
   # stuff which is used throughout the whole routing tree of resources.
   #
@@ -20,8 +20,8 @@ module MSP::Resource2
   # Also, providing access to the TypeIndex, which gives all serializers some knowledge about the
   # type resources which can be linked to to provide browsable metadata about the types of objects.
   class ApplicationContext < Wirer::Service
-    setter_dependency :repositories_indexes, :class => "MSP::Resource2::RepositoriesIndex", :multiple => true, :optional => true
-    setter_dependency :type_index, :class => "MSP::Resource2::TypeIndex"
+    setter_dependency :repositories_indexes, :class => "Resource::RepositoriesIndex", :multiple => true, :optional => true
+    setter_dependency :type_index, :class => "Resource::TypeIndex"
 
     def repositories_indexes=(repo_indexes)
       @repos          = repo_indexes.inject({}) {|hash,index| hash.merge!(index.repos)}

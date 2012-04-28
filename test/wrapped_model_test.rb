@@ -2,7 +2,7 @@ require 'test/helpers'
 require 'test/api/resource/helpers'
 require 'persistence/interfaces'
 
-describe "A scenario using MSP::Resource2::Object::WrappedModel resources wrapping underlying model classes, exposed via multiple repository resources routed to via a RepositoriesIndex" do
+describe "A scenario using Resource::Object::WrappedModel resources wrapping underlying model classes, exposed via multiple repository resources routed to via a RepositoriesIndex" do
 
   class TestModel1 < ThinModels::Struct::Typed
     register_type do
@@ -22,8 +22,8 @@ describe "A scenario using MSP::Resource2::Object::WrappedModel resources wrappi
     identity_attribute :id
   end
 
-  class TestWrappedModel1 < MSP::Resource2::Object
-    include MSP::Resource2::Object::WrappedModel
+  class TestWrappedModel1 < Resource::Object
+    include Resource::Object::WrappedModel
     
     wrap_model_class(TestModel1) do
       expose :id, :exposed
@@ -35,8 +35,8 @@ describe "A scenario using MSP::Resource2::Object::WrappedModel resources wrappi
     end
   end
 
-  class TestWrappedModel2 < MSP::Resource2::Object
-    include MSP::Resource2::Object::WrappedModel
+  class TestWrappedModel2 < Resource::Object
+    include Resource::Object::WrappedModel
     
     wrap_model_class(TestModel2) do
       expose :id
@@ -55,7 +55,7 @@ describe "A scenario using MSP::Resource2::Object::WrappedModel resources wrappi
     def self.model_class; TestModel2; end
   end
   
-  class TestRepoIndex < MSP::Resource2::RepositoriesIndex
+  class TestRepoIndex < Resource::RepositoriesIndex
     expose_repository :test_model_1_repo, TestModel1Repo, TestWrappedModel1, '/wm1'
     expose_repository :test_model_2_repo, TestModel2Repo, TestWrappedModel2, '/wm2'
   end

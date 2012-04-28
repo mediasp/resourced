@@ -1,6 +1,6 @@
 require 'doze/utils'
 
-module MSP::Resource2
+module Resource
   module Serializer; end
 
   class Serializer::HTMLResource < Typisch::Serializer

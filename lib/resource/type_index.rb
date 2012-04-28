@@ -1,4 +1,4 @@
-module MSP::Resource2
+module Resource
   class TypeIndex
     include Router
 
