@@ -32,8 +32,8 @@ module Resource
       type.property_names_to_types.each {|n,type| return type if n.to_s == name.to_s}
     end
 
-    def self.register_type(registry=nil, derived_from=nil, &block)
-      super(registry || MSP::TYPE_REGISTRY, derived_from, &block)
+    def self.register_type(registry, derived_from=nil, &block)
+      super(registry, derived_from, &block)
     end
 
     def self.property_resource_options

@@ -1,20 +1,19 @@
 require 'test/helpers'
-require 'test/api/resource/helpers'
 
 describe "A more involved usage scenario with Resource::Object::MultiVersion" do
 
   class TestMultiVersion1 < Resource::Object::MultiVersion
-    register_type do
+    register_type TEST_REGISTRY do
       property :a, :integer
       property :b, :integer
       property :c, :integer
     end
 
-    register_version_type :ab do
+    register_version_type :ab, TEST_REGISTRY do
       derive_properties :a, :b
     end
 
-    register_version_type :bc do
+    register_version_type :bc, TEST_REGISTRY do
       derive_properties :b, :c
     end
 
@@ -25,24 +24,24 @@ describe "A more involved usage scenario with Resource::Object::MultiVersion" do
   end
 
   class TestMultiVersion2 < Resource::Object::MultiVersion
-    register_type do
+    register_type TEST_REGISTRY do
       property :foo, :integer
       property :bar, :TestMultiVersion1
       property :baz, sequence(:string)
     end
-    
-    register_version_type :bar_ab do
+
+    register_version_type :bar_ab, TEST_REGISTRY do
       derive_property :bar, :version => :ab
     end
 
     # a good example here: we specify the bar property only be serialized in its 'bc' version (not the bigger main version),
     # and only a partial slice of the 'baz' array property be serialized.
-    register_version_type :foo_and_bar_bc_and_baz_0_1 do
+    register_version_type :foo_and_bar_bc_and_baz_0_1, TEST_REGISTRY do
       derive_property :foo
       derive_property :bar, :version => :bc
       derive_property :baz, :slice => (0..1)
     end
-    
+
     def initialize(uri, app_context, properties)
       super(uri, app_context)
       properties.each {|k,v| instance_variable_set(:"@#{k}", v)}
@@ -50,24 +49,25 @@ describe "A more involved usage scenario with Resource::Object::MultiVersion" do
   end
 
   include ResourceTestHelpers
-  
+  include WirerHelpers
+
   def setup
-    @msp_app = MSP.new_application('resource2' => {:type_index_uri => '/types'}) do |app|
-      app.add_instance({
+    @ctr = new_container do |ctr|
+      ctr.add_instance({
         TestMultiVersion1 => 'test-multi-version-1',
         TestMultiVersion2 => 'test-multi-version-2'
       }, :features => [:classes_exposed_as_type_resources])
     end
-        
-    @resource1 = TestMultiVersion1.new('/mv1', @msp_app.resource_application_context, :a => 1, :b => 2, :c => 3)
-    @resource2 = TestMultiVersion2.new('/mv2', @msp_app.resource_application_context, :foo => 99, :bar => @resource1, :baz => ['x','y','z'])
-    
+
+    @resource1 = TestMultiVersion1.new('/mv1', @ctr.resource_application_context, :a => 1, :b => 2, :c => 3)
+    @resource2 = TestMultiVersion2.new('/mv2', @ctr.resource_application_context, :foo => 99, :bar => @resource1, :baz => ['x','y','z'])
+
     self.root_resource = Class.new {include Doze::Router}.new
-    root_resource.add_route('/types', :to => @msp_app.type_index)
+    root_resource.add_route('/types', :to => @ctr.type_index)
     root_resource.add_route('/mv1', :to => @resource1)
     root_resource.add_route('/mv2', :to => @resource2)
   end
-  
+
   it "should serialize itself according to its main registered type, and include its uri in the serialization" do
     get '/mv1'
     assert_equal({
@@ -88,7 +88,7 @@ describe "A more involved usage scenario with Resource::Object::MultiVersion" do
         'c'       => 3,
         '_tag'    => '/types/test-multi-version-1',
         'version' => 'main',
-        'uri'     => '/mv1'        
+        'uri'     => '/mv1'
       },
       'baz'     => ['x','y','z'],
       '_tag'    => '/types/test-multi-version-2',
@@ -96,7 +96,7 @@ describe "A more involved usage scenario with Resource::Object::MultiVersion" do
       'uri'     => '/mv2'
     }, last_response.json)
   end
-  
+
   it "should make properties accessible via subresources, serializing them using the as specified by the main type for the object" do
     get '/mv1/property/a'
     assert_equal 1, last_response.json
@@ -114,7 +114,7 @@ describe "A more involved usage scenario with Resource::Object::MultiVersion" do
       'c'       => 3,
       '_tag'    => '/types/test-multi-version-1',
       'version' => 'main',
-      'uri'     => '/mv1'       
+      'uri'     => '/mv1'
     }, last_response.json)
   end
 
@@ -179,7 +179,7 @@ describe "A more involved usage scenario with Resource::Object::MultiVersion" do
       'uri'     => '/mv2'
     }, last_response.json)
   end
-  
+
   it "should use the version name 'main' for the, well, the main version of the object from which others are derived" do
     get '/mv1'
     assert_equal 'main', last_response.json['version']

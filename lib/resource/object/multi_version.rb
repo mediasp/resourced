@@ -10,7 +10,7 @@ module Resource
     end
 
     class << self
-      def register_version_type(name, registry=MSP::TYPE_REGISTRY, &block)
+      def register_version_type(name, registry, &block)
         type = super(name, registry, &block)
         version_types_by_string[name.to_s] = type
       end
