@@ -30,7 +30,7 @@ module Resource
     end
 
     module ClassMethods
-      def wrap_model_class(model_class, registry=MSP::TYPE_REGISTRY, &block)
+      def wrap_model_class(model_class, registry, &block)
         raise "model class to be wrapped must be Typisch::Typed" unless model_class < Typisch::Typed
         @wrapped_class = model_class
         @wrapped_type = wrapped_type = model_class.type
@@ -58,7 +58,7 @@ module Resource
       # with an alias based off the model class being wrapped. This helps the
       # expose_wrapped_as_resource helpers to know what to use when asked to
       # expose a property wrapped in a particular version.
-      def register_version_type(name, registry=MSP::TYPE_REGISTRY, &block)
+      def register_version_type(name, registry, &block)
         the_type = super
         the_type_alias = :"wrapped_as_resource__#{@wrapped_type.name}__#{name}"
         registry.register do
