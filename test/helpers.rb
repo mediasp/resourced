@@ -4,6 +4,23 @@ require 'test/spec'
 
 require 'resource'
 
+# here so each test does not have to declare one
+TEST_REGISTRY = Typisch::Registry.new
+
+module WirerHelpers
+
+  def new_container(&block)
+    @ctr = Wirer::Container.new
+    @ctr.add(:resource_application_context, Resource::ApplicationContext)
+    @ctr.add(:type_index, Resource::TypeIndex, '/types')
+    @ctr.add_instance(TEST_REGISTRY)
+
+    yield @ctr if block_given?
+
+    @ctr
+  end
+
+end
 
 # monkey patch some useful bits
 class Rack::MockResponse

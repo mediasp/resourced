@@ -1,8 +1,6 @@
 require 'test/helpers'
 require 'ostruct'
 
-TEST_REGISTRY = Typisch::Registry.new
-
 class TestDataClass < OpenStruct; end
 
 TEST_REGISTRY.register do
@@ -14,17 +12,15 @@ end
 
 describe "A basic Resource::Base resource serializing some typed data" do
   include ResourceTestHelpers
+  include WirerHelpers
 
   setup do
     @type = TEST_REGISTRY[:TestDataClass]
 
-    @ctr = Wirer::Container.new
-    @ctr.add(:resource_application_context, Resource::ApplicationContext)
-    @ctr.add(:type_index, Resource::TypeIndex, '/types')
-    @ctr.add_instance(TEST_REGISTRY)
-
-    @ctr.add_instance({TestDataClass => 'test-data-class'}, :features => [:classes_exposed_as_type_resources])
-
+    @ctr = new_container do |ctr|
+      ctr.add_instance({TestDataClass => 'test-data-class'},
+        :features => [:classes_exposed_as_type_resources])
+    end
 
     @data = TestDataClass.new(:a => 123, :b => ['x','y','z'])
 
