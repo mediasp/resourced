@@ -18,12 +18,16 @@ spec = Gem::Specification.new do |s|
   # this is a dependency of savon, but we needed to patch a bug in it,
   # so freezing to the version which the patch applies to.
   s.add_dependency('wirer')
-  s.add_dependency('persistence')
   s.add_dependency('doze')
   s.add_dependency('typisch')
 
+  # the persistence library is not a hard dependency for the resource library,
+  # although the tests do use it explicitly
+  s.add_development_dependency('persistence')
+
   s.add_development_dependency('test-spec')
   s.add_development_dependency('rack-test')
+  s.add_development_dependency('mocha')
 
 
   s.files = Dir.glob("lib/**/*.rb")

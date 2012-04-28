@@ -5,6 +5,7 @@ require 'doze'
 require 'wirer'
 require 'typisch'
 require 'thin_models/struct'
+require 'thin_models/struct/typed'
 require 'thin_models/lazy_array'
 
 require 'resource/application_context'
